@@ -1,6 +1,7 @@
 .header {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
+    margin: 0 auto;
     background-color: #27282d;
     .main-nav {
         display: flex;
@@ -20,11 +21,5 @@
             display: block;
             color: #ccced3;
         }
-    }
-}
-@media (min-width: 768px) {
-    .header {
-        margin: 0 auto;
-        max-width: 1150px;
     }
 }

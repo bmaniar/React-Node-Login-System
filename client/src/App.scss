@@ -1,0 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+#root,
+.App,
+body,
+html {
+    height: 100vh;
+    width: 100vw;
+}
+body {
+    background-image: linear-gradient(140deg, rgb(214, 155, 138) 0%, rgb(156, 36, 167) 100%);
+    margin: 0;
+    overflow: hidden;
+}
