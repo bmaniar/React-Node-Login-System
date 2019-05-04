@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {doLogin} from '../../auth/';
+import { withRouter } from 'react-router-dom';
 
 import './login.scss';
 const Login = (props) => {
@@ -8,7 +9,11 @@ const Login = (props) => {
     const [password,
         setPassword] = useState('');
     const onLoginClick = () => {
-        doLogin(email, password);
+        console.log(props);
+        const loggedInUser = doLogin(email, password);
+        props.setIsLoggedIn(true);
+        props.history.push('/dashboard');
+        props.setAuthStatus('Logged In');
     }
     return (
         <div className="login-container">
@@ -28,4 +33,4 @@ const Login = (props) => {
         </div>
     );
 }
-export default Login;
+export default withRouter(Login);

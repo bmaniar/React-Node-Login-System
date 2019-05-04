@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Redirect, Switch} from "react-router-dom
 import Home from './components/home/';
 import TopBar from './components/topBar/';
 import Login from './components/login/';
+import Logout from './components/logout/';
 import Dashboard from './components/dashboard/';
 import {isAuthenticated} from './auth/';
 import './App.scss';
@@ -11,16 +12,18 @@ import './App.scss';
 const App = () => {
     const [isLoggedIn,
         setIsLoggedIn] = useState(false);
-    const [user,
-        setUser] = useState();
+    const [authStatus,
+        setAuthStatus] = useState('Not Logged In');
     useEffect(() => {
-        const userData = isAuthenticated();
-        if (userData) {
-            setIsLoggedIn(true);
-            setUser(userData);
+        if (!isLoggedIn) {
+            const userData = isAuthenticated();
+            if (userData) {
+                setIsLoggedIn(true);
+                setAuthStatus('Logged In');
+            }
         }
     });
-    const AuthenticatedRoute  = ({
+    const AuthenticatedRoute = ({
         component: Component,
         ...rest
     }) => (
@@ -33,10 +36,24 @@ const App = () => {
     return (
         <Router>
             <div className="App">
-                <TopBar/>
+                <TopBar authStatus={authStatus} isLoggedIn={isLoggedIn} />
                 <Switch>
                     <Route path="/" exact component={Home}/>
-                    <Route path="/login" exact component={Login} />
+                    <Route
+                        path="/login"
+                        exact
+                        render={() => 
+                        <Login
+                            setIsLoggedIn={setIsLoggedIn}
+                            setAuthStatus={setAuthStatus}/>}/>
+                      <Route
+                        path="/logout"
+                        exact
+                        render={() => 
+                        <Logout
+                            setIsLoggedIn={setIsLoggedIn}
+                            setAuthStatus={setAuthStatus}/>}/>
+                   
                     <AuthenticatedRoute path="/dashboard" exact component={Dashboard}/>
                 </Switch>
             </div>
