@@ -1,4 +1,5 @@
 const users = require('../fakeData/users');
+const jwt = require('jsonwebtoken');
 const doLogin = (req, res) => {
     let response = {};
     const {email, password} = req.body;
@@ -11,7 +12,9 @@ const doLogin = (req, res) => {
                 ? {
                     success: true,
                     userData: {
-                        token: '12345'
+                        token: jwt.sign({
+                            email: email
+                        }, "random_secret_key", {expiresIn: 129600})
                     }
                 }
                 : {
