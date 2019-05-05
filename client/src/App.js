@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {BrowserRouter as Router, Route, Redirect, Switch} from "react-router-dom";
+import LoadingOverlay from 'react-loading-overlay';
 import 'babel-polyfill';
 import Home from './components/home/';
 import TopBar from './components/topBar/';
@@ -14,6 +15,8 @@ const App = () => {
         setIsLoggedIn] = useState(false);
     const [authStatus,
         setAuthStatus] = useState('Not Logged In');
+    const [isLoading,
+        setLoading] = useState(false);
     useEffect(() => {
         if (!isLoggedIn) {
             const userData = isAuthenticated();
@@ -35,28 +38,27 @@ const App = () => {
     )
     return (
         <Router>
-            <div className="App">
-                <TopBar authStatus={authStatus} isLoggedIn={isLoggedIn} />
-                <Switch>
-                    <Route path="/" exact component={Home}/>
-                    <Route
-                        path="/login"
-                        exact
-                        render={() => 
-                        <Login
+            <LoadingOverlay active={isLoading} spinner text='Please Wait...'>
+                <div className="App">
+                    <TopBar authStatus={authStatus} isLoggedIn={isLoggedIn}/>
+                    <Switch>
+                        <Route path="/" exact component={Home}/>
+                        <Route
+                            path="/login"
+                            exact
+                            render={() => <Login
                             setIsLoggedIn={setIsLoggedIn}
-                            setAuthStatus={setAuthStatus}/>}/>
-                      <Route
-                        path="/logout"
-                        exact
-                        render={() => 
-                        <Logout
-                            setIsLoggedIn={setIsLoggedIn}
-                            setAuthStatus={setAuthStatus}/>}/>
-                   
-                    <AuthenticatedRoute path="/dashboard" exact component={Dashboard}/>
-                </Switch>
-            </div>
+                            setAuthStatus={setAuthStatus}
+                            setLoading={setLoading}/>}/>
+                        <Route
+                            path="/logout"
+                            exact
+                            render={() => <Logout setIsLoggedIn={setIsLoggedIn} setAuthStatus={setAuthStatus}/>}/>
+
+                        <AuthenticatedRoute path="/dashboard" exact component={Dashboard}/>
+                    </Switch>
+                </div>
+            </LoadingOverlay>
         </Router>
     );
 };

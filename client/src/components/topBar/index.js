@@ -13,13 +13,13 @@ const TopBar = (props) => {
                 {!isLoggedIn && <li>
                     <Link to="/login">Login</Link>
                 </li>
-}
+                }
                 {isLoggedIn && <li>
                     <Link to="/logout">Logout</Link>
                 </li>
-}
+                }
                 <li className="status-indicator">
-                    Status Indicator : {authStatus}
+                    Indicator : {authStatus}
                 </li>
             </ul>
         </header>
