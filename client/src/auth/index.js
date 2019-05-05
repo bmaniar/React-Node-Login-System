@@ -1,10 +1,17 @@
 export const doLogin = (email, password) => {
-    let user = {
-        'token': 'abc',
-        'name': 'abc'
-    };
-    sessionStorage.setItem('user', JSON.stringify(user));
-    return user;
+     return fetch('http://localhost:3000/login', {
+            method: 'post',
+            mode: "cors",
+            body: JSON.stringify({email, password})
+        })
+        .then(response => response.json())
+        .then(function (response) {
+            if (response.success && response.userData) {
+                sessionStorage.setItem('user', JSON.stringify(response.userData));
+            }
+            return response;
+        })
+        .catch(error => console.error('Error:', error));
 }
 export const isAuthenticated = () => {
     let user = JSON.parse(sessionStorage.getItem('user'));

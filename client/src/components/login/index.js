@@ -1,6 +1,7 @@
 import React, {useState} from "react";
+import {withRouter} from 'react-router-dom';
+
 import {doLogin} from '../../auth/';
-import { withRouter } from 'react-router-dom';
 
 import './login.scss';
 const Login = (props) => {
@@ -8,12 +9,16 @@ const Login = (props) => {
         setEmail] = useState('');
     const [password,
         setPassword] = useState('');
-    const onLoginClick = () => {
-        console.log(props);
-        const loggedInUser = doLogin(email, password);
-        props.setIsLoggedIn(true);
-        props.history.push('/dashboard');
-        props.setAuthStatus('Logged In');
+    const onLoginClick = async() => {
+        const loginData = await doLogin(email, password);
+        if (loginData.success && loginData.userData) {
+            props.setIsLoggedIn(true);
+            props.setAuthStatus('Logged In');
+            props
+                .history
+                .push('/dashboard');
+
+        }
     }
     return (
         <div className="login-container">

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {BrowserRouter as Router, Route, Redirect, Switch} from "react-router-dom";
-
+import 'babel-polyfill';
 import Home from './components/home/';
 import TopBar from './components/topBar/';
 import Login from './components/login/';
