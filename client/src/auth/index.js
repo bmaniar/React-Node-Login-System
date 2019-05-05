@@ -1,8 +1,12 @@
 export const doLogin = (email, password) => {
-     return fetch('http://localhost:3000/login', {
-            method: 'post',
-            mode: "cors",
-            body: JSON.stringify({email, password})
+    return fetch('http://localhost:3000/login', {
+        method: 'post',
+        mode: "cors",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email, password})
         })
         .then(response => response.json())
         .then(function (response) {
