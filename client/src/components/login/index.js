@@ -9,22 +9,28 @@ const Login = (props) => {
         setEmail] = useState('');
     const [password,
         setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [error,
+        setError] = useState('');
     const onLoginClick = async() => {
-        props.setLoading(true);
-        props.setAuthStatus('Login In-Progress');
-        const loginData = await doLogin(email, password);
-        props.setLoading(false);
-        if (loginData.success && loginData.userData) {
-            props.setIsLoggedIn(true);
-            props.setAuthStatus('Logged In');
-            props
-                .history
-                .push('/dashboard');
+        if (!email.match(/\\|\/|,|\.|\^$/) && !password.match(/\\|\/|,|\.|\^$/)) {
+            props.setLoading(true);
+            props.setAuthStatus('Login In-Progress');
+            const loginData = await doLogin(email, password);
+            props.setLoading(false);
+            if (loginData.success && loginData.userData) {
+                props.setIsLoggedIn(true);
+                props.setAuthStatus('Logged In');
+                props
+                    .history
+                    .push('/dashboard');
+
+            } else {
+                props.setAuthStatus('Login Failed');
+                setError(loginData.errorMessage);
+            }
 
         } else {
-            props.setAuthStatus('Login Failed');
-            setError(loginData.errorMessage);
+            setError('Username or Password container restricted characters');
         }
     }
     return (
